@@ -13,6 +13,9 @@ import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Lightweight Java HTTP Library
+ */
 public class Glide {
     private final int port, threadCount;
 
@@ -26,17 +29,30 @@ public class Glide {
     
     private static final Logger logger = Logger.getLogger(Glide.class.getName());
 
+    /**
+     * Create new Glide server
+     * @param port Port to operate on
+     * @param threadCount Number of threads to use
+     */
     public Glide(final int port, final int threadCount) {
         this.port = port;
         this.threadCount = threadCount;
     }
 
+    /**
+     * A root context ("/") is required.
+     * @param context Path/Context
+     * @param exchange Custom implementation of handle()
+     */
     public void setContext(String context, HTTPExchange exchange) {
         if (!hasRootContextSet && context.equals("/"))
             hasRootContextSet = true;
         contexts.put(context, exchange);
     }
 
+    /**
+     * @param errorHandler Custom error handler
+     */
     public void setErrorHandler(HTTPExchangeErrorHandler errorHandler) {
         this.errorHandler = errorHandler;
     }
@@ -57,7 +73,12 @@ public class Glide {
         }
         return exchange;
     }
-    
+
+    /**
+     * Start Glide server
+     * @throws IOException May occur when using sockets
+     * @throws NoContextException Occurs if no contexts have been set
+     */
     public void start() throws IOException, NoContextException {
         if (contexts.isEmpty()) {
             logger.log(Level.SEVERE, "No contexts provided. Server cannot run.");

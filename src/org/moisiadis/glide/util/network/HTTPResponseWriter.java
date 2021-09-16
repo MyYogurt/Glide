@@ -5,8 +5,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 
+/**
+ * Class to send HTTP responses
+ */
 public class HTTPResponseWriter {
 
+    /**
+     * Send HTTP response with code only
+     * @param code HTTP response code (Example: 200, 404)
+     */
     public static void sendResponse(OutputStream outputStream, final int code) {
         final String response;
         if (code == 200) {
@@ -21,6 +28,11 @@ public class HTTPResponseWriter {
         }
     }
 
+    /**
+     * Send HTTP response with code and data
+     * @param code HTTP response code
+     * @param responseBody Data to be sent
+     */
     public static void sendResponse(OutputStream outputStream, final int code, final byte[] responseBody) {
         final String response;
         if (code == 200) {
@@ -40,6 +52,11 @@ public class HTTPResponseWriter {
         }
     }
 
+    /**
+     * Send HTTP response with code and file
+     * @param code HTTP response code
+     * @param file File to be sent
+     */
     public static void sendResponse(OutputStream outputStream, final int code, final File file) {
         final String response;
         if (code == 200) {

@@ -8,6 +8,9 @@ import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Spawns with each new HTTP request. Parses request and returns HTTPRequest for user to use
+ */
 public class ServerThread implements Callable<HTTPRequest> {
 
     private final Logger logger = Logger.getLogger(this.getClass().getName());
@@ -16,15 +19,28 @@ public class ServerThread implements Callable<HTTPRequest> {
 
     private HTTPExchangeErrorHandler errorHandler;
 
+    /**
+     * Spawn standard server thread
+     * @param socket Socket to operate on
+     */
     public ServerThread (Socket socket) {
         this.socket = socket;
     }
 
+    /**
+     * Spawn server thread with optional error handler
+     * @param socket Socket to operate on
+     * @param errorHandler Optional custom error handler
+     */
     public ServerThread (Socket socket, HTTPExchangeErrorHandler errorHandler) {
         this.socket = socket;
         this.errorHandler = errorHandler;
     }
 
+    /**
+     * Parses HTTP request
+     * @return HTTPRequest object with information about the request.
+     */
     @Override
     public HTTPRequest call() {
         int contentLength = -1;
