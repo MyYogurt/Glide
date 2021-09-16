@@ -1,7 +1,11 @@
 package org.moisiadis.glide;
 
 import org.moisiadis.glide.exceptions.NoContextException;
-import org.moisiadis.glide.util.network.*;
+import org.moisiadis.glide.util.network.HTTPExchange;
+import org.moisiadis.glide.util.network.HTTPExchangeErrorHandler;
+import org.moisiadis.glide.util.network.HTTPRequest;
+import org.moisiadis.glide.util.network.HTTPResponseWriter;
+import org.moisiadis.glide.util.network.ServerThread;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -26,12 +30,13 @@ public class Glide {
     private HTTPExchangeErrorHandler errorHandler;
 
     private final HashMap<String, HTTPExchange> contexts = new HashMap<String, HTTPExchange>();
-    
+
     private static final Logger logger = Logger.getLogger(Glide.class.getName());
 
     /**
      * Create new Glide server
-     * @param port Port to operate on
+     *
+     * @param port        Port to operate on
      * @param threadCount Number of threads to use
      */
     public Glide(final int port, final int threadCount) {
@@ -41,7 +46,8 @@ public class Glide {
 
     /**
      * A root context ("/") is required.
-     * @param context Path/Context
+     *
+     * @param context  Path/Context
      * @param exchange Custom implementation of handle()
      */
     public void setContext(String context, HTTPExchange exchange) {
@@ -76,7 +82,8 @@ public class Glide {
 
     /**
      * Start Glide server
-     * @throws IOException May occur when using sockets
+     *
+     * @throws IOException        May occur when using sockets
      * @throws NoContextException Occurs if no contexts have been set
      */
     public void start() throws IOException, NoContextException {

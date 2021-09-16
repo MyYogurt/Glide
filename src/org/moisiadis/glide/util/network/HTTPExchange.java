@@ -6,6 +6,7 @@ package org.moisiadis.glide.util.network;
 public interface HTTPExchange {
     /**
      * Custom implementation of handling the HTTP request
+     *
      * @param request HTTP Request
      */
     void handle(HTTPRequest request);

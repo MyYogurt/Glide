@@ -12,14 +12,15 @@ public class HTTPResponseWriter {
 
     /**
      * Send HTTP response with code only
+     *
      * @param code HTTP response code (Example: 200, 404)
      */
     public static void sendResponse(OutputStream outputStream, final int code) {
         final String response;
         if (code == 200) {
-            response = "HTTP/1.1 " + code  + " OK\r\n\r\n";
+            response = "HTTP/1.1 " + code + " OK\r\n\r\n";
         } else {
-            response = "HTTP/1.1 " + code  + "\r\n\r\n";
+            response = "HTTP/1.1 " + code + "\r\n\r\n";
         }
         try {
             outputStream.write(response.getBytes());
@@ -30,20 +31,21 @@ public class HTTPResponseWriter {
 
     /**
      * Send HTTP response with code and data
-     * @param code HTTP response code
+     *
+     * @param code         HTTP response code
      * @param responseBody Data to be sent
      */
     public static void sendResponse(OutputStream outputStream, final int code, final byte[] responseBody) {
         final String response;
         if (code == 200) {
-            response = "HTTP/1.1 " + code  + " OK\r\n";
+            response = "HTTP/1.1 " + code + " OK\r\n";
         } else {
-            response = "HTTP/1.1 " + code  + "\r\n";
+            response = "HTTP/1.1 " + code + "\r\n";
         }
         try {
             outputStream.write(response.getBytes());
             if (responseBody != null) {
-                final String contentLength = "Content-Length: "+ responseBody.length + "\r\n\r\n";
+                final String contentLength = "Content-Length: " + responseBody.length + "\r\n\r\n";
                 outputStream.write(contentLength.getBytes());
                 outputStream.write(responseBody);
             }
@@ -54,15 +56,16 @@ public class HTTPResponseWriter {
 
     /**
      * Send HTTP response with code and file
+     *
      * @param code HTTP response code
      * @param file File to be sent
      */
     public static void sendResponse(OutputStream outputStream, final int code, final File file) {
         final String response;
         if (code == 200) {
-            response = "HTTP/1.1 " + code  + " OK\r\n";
+            response = "HTTP/1.1 " + code + " OK\r\n";
         } else {
-            response = "HTTP/1.1 " + code  + "\r\n";
+            response = "HTTP/1.1 " + code + "\r\n";
         }
         try {
             outputStream.write(response.getBytes());

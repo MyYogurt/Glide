@@ -21,30 +21,33 @@ public class ServerThread implements Callable<HTTPRequest> {
 
     /**
      * Spawn standard server thread
+     *
      * @param socket Socket to operate on
      */
-    public ServerThread (Socket socket) {
+    public ServerThread(Socket socket) {
         this.socket = socket;
     }
 
     /**
      * Spawn server thread with optional error handler
-     * @param socket Socket to operate on
+     *
+     * @param socket       Socket to operate on
      * @param errorHandler Optional custom error handler
      */
-    public ServerThread (Socket socket, HTTPExchangeErrorHandler errorHandler) {
+    public ServerThread(Socket socket, HTTPExchangeErrorHandler errorHandler) {
         this.socket = socket;
         this.errorHandler = errorHandler;
     }
 
     /**
      * Parses HTTP request
+     *
      * @return HTTPRequest object with information about the request.
      */
     @Override
     public HTTPRequest call() {
         int contentLength = -1;
-        
+
         try {
             InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
@@ -72,14 +75,14 @@ public class ServerThread implements Callable<HTTPRequest> {
             }
 
             StringBuilder requestMethod = new StringBuilder();
-            
+
             char ch = request.charAt(0);
             int counter = 0;
-            
+
             while (ch != ' ') {
-            	requestMethod.append(ch);
-            	counter++;
-            	ch = request.charAt(counter);
+                requestMethod.append(ch);
+                counter++;
+                ch = request.charAt(counter);
             }
 
             counter++;
@@ -89,11 +92,11 @@ public class ServerThread implements Callable<HTTPRequest> {
             ch = request.charAt(counter);
 
             while (ch != ' ') {
-            	requestPath.append(ch);
-            	counter++;
-            	ch = request.charAt(counter);
+                requestPath.append(ch);
+                counter++;
+                ch = request.charAt(counter);
             }
-        
+
             if (payload != null)
                 return new HTTPRequest(requestMethod.toString(), requestPath.toString(), request.toString(), socket, payload.toString().getBytes());
             return new HTTPRequest(requestMethod.toString(), requestPath.toString(), request.toString(), socket);
