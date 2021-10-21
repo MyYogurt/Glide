@@ -46,7 +46,7 @@ public class HTTPResponseWriter {
             outputStream.write(response.getBytes());
             if (responseBody != null) {
                 final String contentLength = "Content-Length: " + responseBody.length + "\r\n\r\n";
-                final String contentTypeBytes = "Content-Type: " + contentType;
+                final String contentTypeBytes = "Content-Type: " + contentType + "\r\n\r\n";
                 outputStream.write(contentLength.getBytes());
                 outputStream.write(contentTypeBytes.getBytes());
                 outputStream.write(responseBody);
@@ -72,7 +72,7 @@ public class HTTPResponseWriter {
         try {
             outputStream.write(response.getBytes());
             final String contentLength = "Content-Length: " + file.length() + "\r\n\r\n";
-            final String contentTypeBytes = "Content-Type: " + contentType;
+            final String contentTypeBytes = "Content-Type: " + contentType + "\r\n\r\n";
             outputStream.write(contentLength.getBytes());
             outputStream.write(contentTypeBytes.getBytes());
             Files.copy(file.toPath(), outputStream);
