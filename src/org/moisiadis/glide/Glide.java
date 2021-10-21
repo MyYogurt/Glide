@@ -25,9 +25,9 @@ public class Glide {
 
     private boolean hasRootContextSet;
 
-    private ServerSocket serverSocket;
-
     private HTTPExchangeErrorHandler errorHandler;
+
+    private ServerSocket serverSocket;
 
     private final HashMap<String, HTTPExchange> contexts = new HashMap<String, HTTPExchange>();
 
@@ -65,11 +65,12 @@ public class Glide {
 
     //TODO Optimize
     private HTTPExchange getContext(String path) {
+        String altPath = path.substring(0, path.lastIndexOf('/'));
         int max = -1;
         HTTPExchange exchange = contexts.get("/");
         for (String key : contexts.keySet()) {
-            if (key.contains(path) || key.equals(path.substring(0, path.lastIndexOf('/')))) {
-                if (key.equals(path) || key.equals(path.substring(0, path.lastIndexOf('/'))))
+            if (key.contains(path) || key.equals(altPath)) {
+                if (key.equals(path) || key.equals(altPath))
                     return contexts.get(key);
                 if (key.length() > max) {
                     max = key.length();

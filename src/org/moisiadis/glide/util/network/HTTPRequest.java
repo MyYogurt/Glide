@@ -2,6 +2,7 @@ package org.moisiadis.glide.util.network;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
 
 /**
@@ -35,9 +36,9 @@ public class HTTPRequest {
      * @param requestPath    HTTP request path. (Example: /docs/index.html
      * @param requestHeaders Any other headers included with the request.
      * @param socket         The socket the request came on.
-     * @param hasPayload     HTTP request payload
+     * @param payload     HTTP request payload
      */
-    public HTTPRequest(final String requestMethod, final String requestPath, final String requestHeaders, final Socket socket, final byte[] hasPayload) {
+    public HTTPRequest(final String requestMethod, final String requestPath, final String requestHeaders, final Socket socket, final byte[] payload) {
         this.requestMethod = requestMethod;
         this.requestPath = requestPath;
         this.requestHeaders = requestHeaders;
@@ -55,6 +56,10 @@ public class HTTPRequest {
 
     public String getRequestPath() {
         return requestPath;
+    }
+
+    public InetAddress getRemoteAddress() {
+        return socket.getInetAddress();
     }
 
     /**
@@ -88,7 +93,7 @@ public class HTTPRequest {
      * @param payload     Data to be sent
      */
     public void sendResponse(final int code, final String contentType, final byte[] payload) throws IOException {
-        HTTPResponseWriter.sendResponse(socket.getOutputStream(), code, payload);
+        HTTPResponseWriter.sendResponse(socket.getOutputStream(), code, contentType, payload);
     }
 
     /**
@@ -99,6 +104,6 @@ public class HTTPRequest {
      * @param file        File to be sent
      */
     public void sendResponse(final int code, final String contentType, final File file) throws IOException {
-        HTTPResponseWriter.sendResponse(socket.getOutputStream(), code, file);
+        HTTPResponseWriter.sendResponse(socket.getOutputStream(), code, contentType, file);
     }
 }

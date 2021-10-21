@@ -1,9 +1,14 @@
 # Glide
+
 A pure Java, lightweight, HTTP library.
 
 Alternative to the HttpServer class.
 
 Requires at least Java 8.
+
+## Current Limitations
+
+HTTPS, chunk transfer encoding, and compression (gzip, deflate) are NOT supported at this time.
 
 ## Example
 

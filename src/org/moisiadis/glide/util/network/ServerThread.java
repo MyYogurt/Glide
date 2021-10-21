@@ -55,7 +55,7 @@ public class ServerThread implements Callable<HTTPRequest> {
             StringBuilder request = new StringBuilder();
 
             String line = bufferedReader.readLine();
-            while (!line.isEmpty()) {
+            while (line != null && !line.isEmpty()) {
                 if (line.contains("Content-Length:")) {
                     contentLength = Integer.parseInt(line.substring(line.indexOf(" ") + 1));
                 }

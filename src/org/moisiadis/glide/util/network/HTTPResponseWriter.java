@@ -35,7 +35,7 @@ public class HTTPResponseWriter {
      * @param code         HTTP response code
      * @param responseBody Data to be sent
      */
-    public static void sendResponse(OutputStream outputStream, final int code, final byte[] responseBody) {
+    public static void sendResponse(OutputStream outputStream, final int code, final String contentType, final byte[] responseBody) {
         final String response;
         if (code == 200) {
             response = "HTTP/1.1 " + code + " OK\r\n";
@@ -46,7 +46,9 @@ public class HTTPResponseWriter {
             outputStream.write(response.getBytes());
             if (responseBody != null) {
                 final String contentLength = "Content-Length: " + responseBody.length + "\r\n\r\n";
+                final String contentTypeBytes = "Content-Type: " + contentType;
                 outputStream.write(contentLength.getBytes());
+                outputStream.write(contentTypeBytes.getBytes());
                 outputStream.write(responseBody);
             }
         } catch (IOException e) {
@@ -60,7 +62,7 @@ public class HTTPResponseWriter {
      * @param code HTTP response code
      * @param file File to be sent
      */
-    public static void sendResponse(OutputStream outputStream, final int code, final File file) {
+    public static void sendResponse(OutputStream outputStream, final int code, final String contentType, final File file) {
         final String response;
         if (code == 200) {
             response = "HTTP/1.1 " + code + " OK\r\n";
@@ -70,7 +72,9 @@ public class HTTPResponseWriter {
         try {
             outputStream.write(response.getBytes());
             final String contentLength = "Content-Length: " + file.length() + "\r\n\r\n";
+            final String contentTypeBytes = "Content-Type: " + contentType;
             outputStream.write(contentLength.getBytes());
+            outputStream.write(contentTypeBytes.getBytes());
             Files.copy(file.toPath(), outputStream);
         } catch (IOException e) {
             e.printStackTrace();
