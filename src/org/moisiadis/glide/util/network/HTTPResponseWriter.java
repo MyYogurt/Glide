@@ -45,10 +45,10 @@ public class HTTPResponseWriter {
         try {
             outputStream.write(response.getBytes());
             if (responseBody != null) {
+                final String contentTypeBytes = "Content-Type: " + contentType + "\r\n";
                 final String contentLength = "Content-Length: " + responseBody.length + "\r\n\r\n";
-                final String contentTypeBytes = "Content-Type: " + contentType + "\r\n\r\n";
-                outputStream.write(contentLength.getBytes());
                 outputStream.write(contentTypeBytes.getBytes());
+                outputStream.write(contentLength.getBytes());
                 outputStream.write(responseBody);
             }
         } catch (IOException e) {
@@ -71,10 +71,10 @@ public class HTTPResponseWriter {
         }
         try {
             outputStream.write(response.getBytes());
+            final String contentTypeBytes = "Content-Type: " + contentType + "\r\n";
             final String contentLength = "Content-Length: " + file.length() + "\r\n\r\n";
-            final String contentTypeBytes = "Content-Type: " + contentType + "\r\n\r\n";
-            outputStream.write(contentLength.getBytes());
             outputStream.write(contentTypeBytes.getBytes());
+            outputStream.write(contentLength.getBytes());
             Files.copy(file.toPath(), outputStream);
         } catch (IOException e) {
             e.printStackTrace();
