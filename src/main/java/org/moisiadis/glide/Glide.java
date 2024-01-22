@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -23,15 +24,22 @@ import java.util.logging.Logger;
 public class Glide {
     private final int port, threadCount;
 
-    private boolean hasRootContextSet;
-
     private HTTPExchangeErrorHandler errorHandler;
 
     private ServerSocket serverSocket;
 
-    private final HashMap<String, HTTPExchange> contexts = new HashMap<String, HTTPExchange>();
+    private final Map<String, HTTPExchange> contexts = new HashMap<String, HTTPExchange>();
 
     private static final Logger logger = Logger.getLogger(Glide.class.getName());
+
+    /**
+     * Create a new single threaded Glide server
+     * @param port Port to operate on
+     */
+    public Glide(final int port) {
+        this.port = port;
+        threadCount = 1;
+    }
 
     /**
      * Create new Glide server
@@ -44,6 +52,11 @@ public class Glide {
         this.threadCount = threadCount;
     }
 
+    public Glide(final int port, final int HTTPSPort, final int threadCount) {
+        this.port = port;
+        this.threadCount = threadCount;
+    }
+
     /**
      * A root context ("/") is required.
      *
@@ -51,8 +64,6 @@ public class Glide {
      * @param exchange Custom implementation of handle()
      */
     public void setContext(String context, HTTPExchange exchange) {
-        if (!hasRootContextSet && context.equals("/"))
-            hasRootContextSet = true;
         contexts.put(context, exchange);
     }
 
